@@ -221,11 +221,6 @@ export class AES {
        * @param ciphertext - encrypted text
        * @param password - encryption password
        * @param nBits - bits size
-       *```ts
-       *  const Text = AES.Ctr.decrypt("uAIyZlqGe18XRt2+akj3wzCKbhtcINuC3RItd0U=", "elsa land", "128");
-       *
-       * console.log(Text); // hello world from elsa
-       * ```
        */
       decrypt(ciphertext: string, password: string, nBits: BitSize) {
         const blockSize = 16; // block size fixed at 16 bytes / 128 bits (Nb=4) for AES
@@ -308,11 +303,6 @@ export class AES {
        * @param plaintext - text to encrypt
        * @param password - encryption password
        * @param nBits - bits size
-       *```ts
-       *  const Text = AES.Ctr.decrypt("hello world from elsa", "elsa land", "128");
-       *
-       * console.log(Text); // uAIyZlqGe18XRt2+akj3wzCKbhtcINuC3RItd0U=
-       * ```
        */
       encrypt(plaintext: string, password: string, nBits: BitSize) {
         const blockSize = 16; // block size fixed at 16 bytes / 128 bits (Nb=4) for AES
