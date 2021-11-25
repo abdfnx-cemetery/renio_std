@@ -1,15 +1,15 @@
-import { DateFormatter } from "./formatter.ts";
+import { DaterFormatter } from "./formatter.ts";
 import {
   DAY,
+  Day,
+  days,
+  DAYS_PER_WEEK,
   SECOND,
   MINUTE,
   HOUR,
-  Day,
   WEEK,
-  DAYS_PER_WEEK,
-  Unit,
-  days,
   months,
+  Unit,
 } from "./constants.ts";
 
 /**
@@ -19,9 +19,9 @@ import {
  * @return Parsed date
  */
 export function parse(dateString: string, formatString: string): Date {
-  const formatter = new DateFormatter(formatString);
+  const formatter = new DaterFormatter(formatString);
   const parts = formatter.parseToParts(dateString);
-  const sortParts = formatter.sortDateFormatPart(parts);
+  const sortParts = formatter.sortDaterFormatPart(parts);
   return formatter.partsToDate(sortParts);
 }
 
@@ -32,7 +32,7 @@ export function parse(dateString: string, formatString: string): Date {
  * @return formatted date string
  */
 export function format(date: Date, formatString: string): string {
-  const formatter = new DateFormatter(formatString);
+  const formatter = new DaterFormatter(formatString);
   return formatter.format(date);
 }
 
@@ -123,6 +123,14 @@ export type DifferenceOptions = {
  * @param from Year to calculate difference
  * @param to Year to calculate difference with
  * @param options Options for determining how to respond
+ *
+ * example :
+ *
+ * ```typescript
+ * import * as datetime from "./mod.ts";
+ *
+ * datetime.difference(new Date("2020/1/1"),new Date("2020/2/2"),{ units : ["days","months"] })
+ * ```
  */
 export function difference(
   from: Date,

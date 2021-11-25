@@ -12,7 +12,7 @@ function digits(value: string | number, count = 2): string {
 }
 
 // as declared as in namespace Intl
-type DateFormatPartTypes =
+type DaterFormatPartTypes =
   | "day"
   | "dayPeriod"
   // | "era"
@@ -26,8 +26,8 @@ type DateFormatPartTypes =
   | "year"
   | "fractionalSecond";
 
-interface DateFormatPart {
-  type: DateFormatPartTypes;
+interface DaterFormatPart {
+  type: DaterFormatPartTypes;
   value: string;
 }
 
@@ -160,13 +160,13 @@ const defaultRules = [
 ];
 
 type FormatPart = {
-  type: DateFormatPartTypes;
+  type: DaterFormatPartTypes;
   value: string | number;
   hour12?: boolean;
 };
 type Format = FormatPart[];
 
-export class DateFormatter {
+export class DaterFormatter {
   #format: Format;
 
   constructor(formatString: string, rules: Rule[] = defaultRules) {
@@ -331,8 +331,8 @@ export class DateFormatter {
     return string;
   }
 
-  parseToParts(string: string): DateFormatPart[] {
-    const parts: DateFormatPart[] = [];
+  parseToParts(string: string): DaterFormatPart[] {
+    const parts: DaterFormatPart[] = [];
 
     for (const token of this.#format) {
       const type = token.type;
@@ -502,16 +502,16 @@ export class DateFormatter {
 
     if (string.length) {
       throw Error(
-        `date string was not fully parsed! ${string.slice(0, 25)}`
+        `datetime string was not fully parsed! ${string.slice(0, 25)}`
       );
     }
 
     return parts;
   }
 
-  /** sort & filter dateFormatPart */
-  sortDateFormatPart(parts: DateFormatPart[]): DateFormatPart[] {
-    let result: DateFormatPart[] = [];
+  /** sort & filter dateTimeFormatPart */
+  sortDaterFormatPart(parts: DaterFormatPart[]): DaterFormatPart[] {
+    let result: DaterFormatPart[] = [];
     const typeArray = [
       "year",
       "month",
@@ -531,7 +531,7 @@ export class DateFormatter {
     return result;
   }
 
-  partsToDate(parts: DateFormatPart[]): Date {
+  partsToDate(parts: DaterFormatPart[]): Date {
     const date = new Date();
     const utc = parts.find(
       (part) => part.type === "timeZoneName" && part.value === "UTC"
@@ -558,7 +558,7 @@ export class DateFormatter {
         case "hour": {
           let value = Number(part.value);
           const dayPeriod = parts.find(
-            (part: DateFormatPart) => part.type === "dayPeriod"
+            (part: DaterFormatPart) => part.type === "dayPeriod"
           );
           if (dayPeriod?.value === "PM") value += 12;
           utc ? date.setUTCHours(value) : date.setHours(value);
@@ -586,7 +586,7 @@ export class DateFormatter {
 
   parse(string: string): Date {
     const parts = this.parseToParts(string);
-    const sortParts = this.sortDateFormatPart(parts);
+    const sortParts = this.sortDaterFormatPart(parts);
     return this.partsToDate(sortParts);
   }
 }
