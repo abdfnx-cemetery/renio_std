@@ -6,6 +6,8 @@
 
 - **async**
 - **bytes**
+- **crypto**
+- **dater**
 - **encoding**
 - **fmt**
 - **fs**
