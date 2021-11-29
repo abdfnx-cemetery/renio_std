@@ -35,9 +35,10 @@ function takeObject(idx) {
   return ret;
 }
 
-const lTextDecoder = typeof TextDecoder === "undefined"
-  ? (0, module.require)("util").TextDecoder
-  : TextDecoder;
+const lTextDecoder =
+  typeof TextDecoder === "undefined"
+    ? (0, module.require)("util").TextDecoder
+    : TextDecoder;
 
 let cachedTextDecoder = new lTextDecoder("utf-8", {
   ignoreBOM: true,
@@ -63,31 +64,34 @@ function getStringFromWasm0(ptr, len) {
 
 let WASM_VECTOR_LEN = 0;
 
-const lTextEncoder = typeof TextEncoder === "undefined"
-  ? (0, module.require)("util").TextEncoder
-  : TextEncoder;
+const lTextEncoder =
+  typeof TextEncoder === "undefined"
+    ? (0, module.require)("util").TextEncoder
+    : TextEncoder;
 
 let cachedTextEncoder = new lTextEncoder("utf-8");
 
 const encodeString =
-  (typeof cachedTextEncoder.encodeInto === "function"
+  typeof cachedTextEncoder.encodeInto === "function"
     ? function (arg, view) {
-      return cachedTextEncoder.encodeInto(arg, view);
-    }
+        return cachedTextEncoder.encodeInto(arg, view);
+      }
     : function (arg, view) {
-      const buf = cachedTextEncoder.encode(arg);
-      view.set(buf);
-      return {
-        read: arg.length,
-        written: buf.length,
+        const buf = cachedTextEncoder.encode(arg);
+        view.set(buf);
+        return {
+          read: arg.length,
+          written: buf.length,
+        };
       };
-    });
 
 function passStringToWasm0(arg, malloc, realloc) {
   if (realloc === undefined) {
     const buf = cachedTextEncoder.encode(arg);
     const ptr = malloc(buf.length);
-    getUint8Memory0().subarray(ptr, ptr + buf.length).set(buf);
+    getUint8Memory0()
+      .subarray(ptr, ptr + buf.length)
+      .set(buf);
     WASM_VECTOR_LEN = buf.length;
     return ptr;
   }
@@ -101,7 +105,7 @@ function passStringToWasm0(arg, malloc, realloc) {
 
   for (; offset < len; offset++) {
     const code = arg.charCodeAt(offset);
-    if (code > 0x7F) break;
+    if (code > 0x7f) break;
     mem[ptr + offset] = code;
   }
 
@@ -109,7 +113,7 @@ function passStringToWasm0(arg, malloc, realloc) {
     if (offset !== 0) {
       arg = arg.slice(offset);
     }
-    ptr = realloc(ptr, len, len = offset + arg.length * 3);
+    ptr = realloc(ptr, len, (len = offset + arg.length * 3));
     const view = getUint8Memory0().subarray(ptr + offset, ptr + len);
     const ret = encodeString(arg, view);
 
@@ -151,7 +155,7 @@ export function digest(algorithm, data, length) {
     var ptr0 = passStringToWasm0(
       algorithm,
       wasm.__wbindgen_malloc,
-      wasm.__wbindgen_realloc,
+      wasm.__wbindgen_realloc
     );
     var len0 = WASM_VECTOR_LEN;
     wasm.digest(
@@ -160,7 +164,7 @@ export function digest(algorithm, data, length) {
       len0,
       addHeapObject(data),
       !isLikeNone(length),
-      isLikeNone(length) ? 0 : length,
+      isLikeNone(length) ? 0 : length
     );
     var r0 = getInt32Memory0()[retptr / 4 + 0];
     var r1 = getInt32Memory0()[retptr / 4 + 1];
@@ -208,7 +212,7 @@ export class DigestContext {
     var ptr0 = passStringToWasm0(
       algorithm,
       wasm.__wbindgen_malloc,
-      wasm.__wbindgen_realloc,
+      wasm.__wbindgen_realloc
     );
     var len0 = WASM_VECTOR_LEN;
     var ret = wasm.digestcontext_new(ptr0, len0);
@@ -245,7 +249,7 @@ export class DigestContext {
         retptr,
         this.ptr,
         !isLikeNone(length),
-        isLikeNone(length) ? 0 : length,
+        isLikeNone(length) ? 0 : length
       );
       var r0 = getInt32Memory0()[retptr / 4 + 0];
       var r1 = getInt32Memory0()[retptr / 4 + 1];
@@ -277,7 +281,7 @@ export class DigestContext {
         retptr,
         this.ptr,
         !isLikeNone(length),
-        isLikeNone(length) ? 0 : length,
+        isLikeNone(length) ? 0 : length
       );
       var r0 = getInt32Memory0()[retptr / 4 + 0];
       var r1 = getInt32Memory0()[retptr / 4 + 1];
@@ -311,7 +315,7 @@ export class DigestContext {
         retptr,
         ptr,
         !isLikeNone(length),
-        isLikeNone(length) ? 0 : length,
+        isLikeNone(length) ? 0 : length
       );
       var r0 = getInt32Memory0()[retptr / 4 + 0];
       var r1 = getInt32Memory0()[retptr / 4 + 1];
@@ -402,7 +406,7 @@ export function __wbg_buffer_facf0398a281c85b(arg0) {
 export function __wbg_newwithbyteoffsetandlength_4b9b8c4e3f5adbff(
   arg0,
   arg1,
-  arg2,
+  arg2
 ) {
   var ret = new Uint8Array(getObject(arg0), arg1 >>> 0, arg2 >>> 0);
   return addHeapObject(ret);
